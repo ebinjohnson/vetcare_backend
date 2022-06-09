@@ -466,39 +466,25 @@ router.post("/changepassword", async (req, res, next) => {
 // });
 
 router.post("/addproduct", async (req, res) => {
-  console.log("add pro");
-  console.log(req.body.desc);
-  res.send("SDDSA");
-  // console.log(req.body.ctnam);
-  // const img_name = Date.now() + req.body.filename;
-  // const file = req.files.file;
-  // const newpath = __dirname + " /Images/";
-  // console.log(req.body);
-  // let Product = new products({
-  //   productCategory: req.body.ctname,
-  //   productName: req.body.name,
-  //   productPrice: req.body.price,
-  //   productDescription: req.body.desc,
-  //   productQuantity: req.body.quantity,
-  //   productImage: img_name,
-  // });
+  let Product = new products({
+    productCategory: req.body.ctname,
+    productName: req.body.name,
+    productPrice: req.body.price,
+    productDescription: req.body.desc,
+    productQuantity: req.body.quantity,
+  });
 
-  // Product.save()
-  //   .then((product) => {
-  //     return res.status(200).send({
-  //       message: product,
-  //     });
-  //   })
-  //   .catch((error) => {
-  //     return res.status(500).send({
-  //       message: error.message,
-  //     });
-  //   });
-  // file.mv(`${newpath}${img_name}`, (err) => {
-  //   if (err) {
-  //     console.log(err);
-  //   }
-  // });
+  Product.save()
+    .then((product) => {
+      return res.status(200).send({
+        message: product,
+      });
+    })
+    .catch((error) => {
+      return res.status(500).send({
+        message: error.message,
+      });
+    });
 });
 
 //get hospital by id
@@ -818,10 +804,10 @@ router.post("/cancelorder", async (req, res, next) => {
 //update stock
 router.post("/updatestock", async (req, res, next) => {
   let productdata = req.body.productId;
-  let stock=req.body.stock;
-  let oldquantity=req.body.oldquantity;
+  let stock = req.body.stock;
+  let oldquantity = req.body.oldquantity;
   let quantity = {
-    productQuantity:oldquantity-stock,
+    productQuantity: oldquantity - stock,
   };
   products
     .findByIdAndUpdate(productdata, { $set: quantity })
